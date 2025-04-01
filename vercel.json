@@ -1,0 +1,9 @@
+{
+    "runtime": "edge",
+    "functions": {
+      "api/**/*.{ts,tsx}": {
+        "runtime": "vercel-deno"
+      }
+    }
+  }
+  
