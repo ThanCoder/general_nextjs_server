@@ -1,9 +1,22 @@
 {
-    "runtime": "edge",
-    "functions": {
-      "api/**/*.{ts,tsx}": {
-        "runtime": "vercel-deno"
-      }
+  "version": 2,
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
     }
-  }
-  
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/old-route",
+      "destination": "/new-route",
+      "permanent": true
+    }
+  ]
+}
