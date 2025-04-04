@@ -20,7 +20,50 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  /* background: var(--background);
+  color: var(--foreground); */
+  padding: 5px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn,
+button {
+  @apply bg-indigo-600 text-white p-1 px-3 capitalize rounded-md hover:cursor-pointer text-lg inline-block;
+}
+/* form */
+.form-container {
+  @apply rounded-sm p-2 grid gap-2 mb-2;
+}
+.form-container label {
+  @apply text-black capitalize;
+}
+.form-container input[type="text"],
+input[type="text"],input[type="number"] {
+  @apply focus:outline-none rounded-sm p-2 w-full block outline-1 -outline-offset-1 outline-gray-300 bg-gray-100 text-black;
+}
+.form-container textarea {
+  @apply resize-none text-black border-2 border-gray-300 bg-gray-100 rounded-md p-2 outline-0 focus:border-none;
+}
+
+/* form */
+
+
+.card {
+  @apply bg-gray-200 p-2 rounded-md;
+}
+
+h1 {
+  @apply text-4xl text-black;
+}
+
+
+/* color */
+.red {
+  @apply bg-red-700;
+}
+.default {
+  @apply bg-gray-400;
+}
+.error-text {
+  @apply text-red-600 capitalize;
 }

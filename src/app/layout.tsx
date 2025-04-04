@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import {
+  ClerkProvider,
+} from '@clerk/nextjs'
+import ClerkHeader from "@/components/clerk_header";
+import { ToastContainer } from "react-toastify";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,12 +29,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+   <ClerkProvider>
+     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <ClerkHeader/> */}
+          
         {children}
+        <ToastContainer/>
       </body>
     </html>
+   </ClerkProvider>
   );
 }
