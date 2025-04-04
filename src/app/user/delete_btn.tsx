@@ -1,8 +1,9 @@
 'use client'
 import { deleteUserAction } from "@/actions/user_action";
+import { User } from "@prisma/client";
 import { useTransition } from "react";
 
-export default function DeleteBtn({ user }: { user: UserModel }) {
+export default function DeleteBtn({ user }: { user: User }) {
 
   const [isPending,startTransition] = useTransition()
   
