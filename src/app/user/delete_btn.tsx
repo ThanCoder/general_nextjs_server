@@ -19,7 +19,7 @@ export default function DeleteBtn({ user }: { user: User }) {
   }
   
   return (
-    <button disabled={isPending} onClick={()=> deleteConfirm()} className="bg-red-600 text-white p-1 rounded-sm hover:cursor-pointer hover:bg-red-800">
+    <button disabled={isPending} onClick={()=> deleteConfirm()} className="red">
       {isPending ? 'Deleting':'Delete'}
     </button>
   );

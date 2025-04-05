@@ -8,4 +8,12 @@ export enum PlatformTypes {
 }
 
 
+export enum UserTypes {
+  admin='admin',
+  normal='normal',
+  
+}
+
 export const getPlatformTypeList = ()=>Object.values(PlatformTypes)
+export const getUserTypeList = ()=>Object.values(UserTypes)
+

@@ -15,8 +15,17 @@ datasource db {
 
 model User{
   id String @id @default(uuid())
-  name String @unique
+  name String 
   password String
+  // platform
+  platform String
+  clientId String
+  type String
+  // provider
+  email String
+  imageUrl String
+  banned Boolean @default(false)
+  locked Boolean @default(false)
   date DateTime @default(now())
 }
 

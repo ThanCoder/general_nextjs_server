@@ -2,8 +2,11 @@ import Link from "next/link";
 import prisma from "../../lib/prisma";
 import ParseDate from "@/components/parse_date";
 import DeleteBtn from "./delete_btn";
+import { getCurrentUser } from "@/user_auth/clerk_user_auth";
+import { UserTypes } from "@/types/types";
 
 export default async function UserList() {
+  const currentUser = await getCurrentUser();
   // await new Promise((resolve)=> setTimeout(resolve,2000));
   const users = await prisma.user.findMany({ orderBy: { date: "desc" } });
 
@@ -25,7 +28,7 @@ export default async function UserList() {
             </div>
           </Link>
           <div className="flex">
-           <DeleteBtn user={user}/>
+           {currentUser?.type === UserTypes.admin ? <DeleteBtn user={user}/>:null}
           </div>
         </div>
       ))}

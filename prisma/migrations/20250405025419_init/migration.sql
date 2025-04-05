@@ -2,7 +2,16 @@
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "nameuser" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "platform" TEXT NOT NULL,
+    "clientId" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "emailAddress" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "banned" BOOLEAN NOT NULL DEFAULT false,
+    "locked" BOOLEAN NOT NULL DEFAULT false,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -46,7 +55,7 @@ CREATE TABLE "ReleaseApp" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
+CREATE UNIQUE INDEX "User_nameuser_key" ON "User"("nameuser");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Proxy_title_key" ON "Proxy"("title");

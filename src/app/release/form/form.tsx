@@ -1,18 +1,19 @@
 "use client";
 
+import { releaseAddAction } from "@/actions/release_actions";
 import { releaseAppAddAction } from "@/actions/release_app_actions";
 import FormButton from "@/components/form_button";
 import { getPlatformTypeList, PlatformTypes } from "@/types/types";
-import { Release } from "@prisma/client";
 import { ChangeEvent, useActionState, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function ReleaseAppForm({ release }: { release: Release }) {
-  const [state, action] = useActionState(releaseAppAddAction, null);
+function ReleaseForm() {
+  const [state, action] = useActionState(releaseAddAction, null);
   const [formData, setFormData] = useState({
-    version: "",
-    platform: "",
-    url: "",
+    title: "",
+    repository: "",
+    coverUrl: "",
+    packageName: "",
     description: "",
   });
 
@@ -22,7 +23,7 @@ function ReleaseAppForm({ release }: { release: Release }) {
 
   useEffect(() => {
     if (state?.success) {
-      setFormData({ ...formData, url: "", description: "" });
+      setFormData({coverUrl: "", description: "",packageName:'',repository:'',title:'' });
       toast.success("Added");
     } else {
       if (state?.someError) {
@@ -33,68 +34,59 @@ function ReleaseAppForm({ release }: { release: Release }) {
 
   return (
     <div className="p-10">
-      <h1 className="text-center mb-2">App Form</h1>
+      <h1 className="text-center mb-2">Release Form</h1>
       <div className="error-text">{state?.someError}</div>
       <form action={action}>
-        <input type="hidden" name="releaseId" value={release.id} />
+        
 
         <div className="form-container">
-          <label htmlFor="version">version</label>
+          <label htmlFor="title">title</label>
           <input
             type="text"
-            name="version"
-            id="version"
-            placeholder="1.0.0"
-            value={formData.version}
+            name="title"
+            id="title"
+            placeholder="Untitled"
+            value={formData.title}
             onChange={onChanged}
           />
-          <div className="error-text">{state?.vesionError}</div>
+          <div className="error-text">{state?.titleError}</div>
         </div>
 
         <div className="form-container">
           <label htmlFor="packageName">packageName</label>
           <input
             type="text"
-            value={release.packageName}
-            disabled
+            value={formData.packageName}
+            onChange={onChanged}
             name="packageName"
             id="packageName"
-            placeholder="than."
+            placeholder="com.than.*"
           />
+          <div className="error-text">{state?.packageNameError}</div>
         </div>
 
         <div className="form-container">
-          <label htmlFor="platform">platform</label>
+          <label htmlFor="repository">repository</label>
           <input
             type="text"
-            name="platform"
-            id="platform"
-            placeholder="platform..."
-            list="platform-list"
-            value={formData.platform}
+            name="repository"
+            id="repository"
+            placeholder="repository..."
+            value={formData.repository}
             onChange={onChanged}
           />
-          <div className="error-text">{state?.platformError}</div>
+          <div className="error-text">{state?.repositoryError}</div>
         </div>
-        {/* plaform list */}
-        <datalist id="platform-list">
-          {getPlatformTypeList().map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </datalist>
         <div className="form-container">
-          <label htmlFor="url">url</label>
+          <label htmlFor="coverUrl">coverUrl</label>
           <input
             type="text"
-            name="url"
-            id="url"
-            placeholder="Url..."
-            value={formData.url}
+            name="coverUrl"
+            id="coverUrl"
+            placeholder="coverUrl..."
+            value={formData.coverUrl}
             onChange={onChanged}
           />
-          <div className="error-text">{state?.urlError}</div>
         </div>
 
         <div className="form-container">
@@ -115,4 +107,4 @@ function ReleaseAppForm({ release }: { release: Release }) {
   );
 }
 
-export default ReleaseAppForm;
+export default ReleaseForm;

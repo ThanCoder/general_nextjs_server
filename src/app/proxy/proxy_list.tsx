@@ -12,7 +12,7 @@ export default async function ProxyList() {
         <div>Url: {proxy.url}</div>
         <div>Type: {proxy.type}</div>
         <div>Date: <ParseDate date={proxy.date}/></div>
-       <div className="mt-3 flex">
+       <div className="mt-3 flex gap-2">
        <button className="">Edit</button>
        <ProxyDeleteButton proxy={proxy}/>
        </div>

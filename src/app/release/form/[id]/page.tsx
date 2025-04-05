@@ -7,8 +7,8 @@ async function ReleaseAppFormPage({params}:{params:Promise<{id:string}>}) {
     const release = await prisma.release.findUnique({where:{id}})
 
   return ( <div>
-    <h1>{release?.title}</h1>
     <Link href={`/release/${id}`} className="btn">Go Back</Link>
+    <h1 className="text-center mb-3">{`Release '${release?.title}'`}</h1>
     {/* form */}
     {release && <ReleaseAppForm release={release} />}
   </div> );

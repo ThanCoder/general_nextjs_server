@@ -2,6 +2,7 @@ import ParseDate from "@/components/parse_date";
 import prisma from "@/lib/prisma";
 import { getProxyUrl } from "@/utils/app_utils";
 import Link from "next/link";
+import ReleaseDeleteButton from "./release_delete_button";
 
 const RelaseList = async () => {
   const list = await prisma.release.findMany({ orderBy: { date: "desc" } });
@@ -38,8 +39,8 @@ const RelaseList = async () => {
               Date: <ParseDate date={release.date} />
             </div></Link>
             <div className="flex gap-1" >
-              <Link href={`/release/form/${release.id}`} className="btn default">Edit</Link>
-              <button className="red">Delete</button>
+              <Link href={`/release/${release.id}`} className="btn default">Edit</Link>
+              <ReleaseDeleteButton release={release}/>
             </div>
           </div>
         </div>

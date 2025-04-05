@@ -7,12 +7,11 @@ async function RelaseAppPage({params}:{params:Promise<{id:string}>}) {
   const release = await prisma.release.findUnique({where:{id}})
   return ( <div>
     <div className="flex gap-2 justify-start">
-      <Link href="/" className="btn">Home</Link>
-      <Link href="/release" className="btn">Release Page</Link>
+      <Link href="/release" className="btn">Release</Link>
       <Link href={`/release/form/${id}`} className="btn">Add App</Link>
     </div>
     <div className="mt-2">
-    <h1 className="text-center my-3">{release?.title}</h1>
+    <h1 className="text-center my-3">{`App ${release?.title}`}</h1>
     </div>
     {/* list */}
     <ReleaseAppList releaseId={id}/>

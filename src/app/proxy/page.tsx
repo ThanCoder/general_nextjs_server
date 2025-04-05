@@ -5,7 +5,7 @@ import ProxyList from "./proxy_list";
 export default async function ProxyHome(){
   return <div>
     {/* list */}
-    <div className="grid gap-2">
+    <div className="flex gap-2">
       <Link href='/' className="btn">Home</Link>
       <Link href='/proxy/form' className="btn">Add Proxy</Link>
     </div>
