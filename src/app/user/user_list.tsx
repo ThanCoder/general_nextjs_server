@@ -11,8 +11,8 @@ export default async function UserList() {
   const users = await prisma.user.findMany({ orderBy: { date: "desc" } });
 
 
-
   return (
+
     <div>
       {users.map((user) => (
         <div

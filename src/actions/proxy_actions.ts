@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { ProxyType } from "@/models/proxy_model";
+import { isAdminUser } from "@/user_auth/clerk_user_auth";
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 
@@ -24,6 +25,9 @@ export async function proxyCreateAction(prevState: any, formData: FormData) {
     urlError: ""
   }
   try {
+    const isAdmin = await isAdminUser();
+    if(!isAdmin) return {...sendData,someError:'not allowed'}
+    
 
     const title = formData.get('title') as string;
     const url = formData.get('url') as string;
@@ -48,7 +52,8 @@ export async function proxyCreateAction(prevState: any, formData: FormData) {
 
 export async function proxyDeleteAction(id:string):Promise<string>{
   try {
-    console.log('call');
+    const isAdmin = await isAdminUser();
+    if(!isAdmin) return 'not allowed'
     
     // await new Promise((res)=> setTimeout(res,2000))
     await prisma.proxy.delete({where:{id}})

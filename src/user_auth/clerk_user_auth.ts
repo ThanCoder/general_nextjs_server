@@ -5,6 +5,11 @@ import { User } from "@prisma/client";
 
 type propsType = {platform?:string}
 
+export async function isAdminUser():Promise<boolean>{
+  const user = await getCurrentUser();
+  return user?.type === UserTypes.admin;
+}
+
 export async function getCurrentUser ({platform}:propsType={}):Promise<null | User>{
   try {
     const user = await currentUser()

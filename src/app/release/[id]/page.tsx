@@ -5,7 +5,7 @@ import ReleaseAppList from "./release_app_list";
 async function RelaseAppPage({params}:{params:Promise<{id:string}>}) {
   const id = (await params).id;
   const release = await prisma.release.findUnique({where:{id}})
-  return ( <div>
+  return ( <div className="p-4">
     <div className="flex gap-2 justify-start">
       <Link href="/release" className="btn">Release</Link>
       <Link href={`/release/form/${id}`} className="btn">Add App</Link>

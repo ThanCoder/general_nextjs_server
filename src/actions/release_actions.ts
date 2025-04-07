@@ -1,12 +1,16 @@
 'use server'
 
 import prisma from "@/lib/prisma";
+import { isAdminUser } from "@/user_auth/clerk_user_auth";
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 
 
-export async function releaseUpdateAction(prevState:any,formData:FormData){
+export async function releaseUpdateAction(prevState: any, formData: FormData) {
   try {
+    const isAdmin = await isAdminUser();
+    if (!isAdmin) return { success: false, someError: 'not allowed' }
+
     const title = formData.get('title') as string;
     const id = formData.get('id') as string;
     const repository = formData.get('repository') as string;
@@ -14,63 +18,67 @@ export async function releaseUpdateAction(prevState:any,formData:FormData){
     const packageName = formData.get('packageName') as string;
     const description = formData.get('description') as string;
 
-    if(!id) return {success:false,someError:'id not found!'}
-    if(!title) return {success:false,titleError:'title is required!'}
-    if(!repository) return {success:false,repositoryError:'repository is required!'}
-    if(!packageName) return {success:false,packageNameError:'packageName is required!'}
+    if (!id) return { success: false, someError: 'id not found!' }
+    if (!title) return { success: false, titleError: 'title is required!' }
+    if (!repository) return { success: false, repositoryError: 'repository is required!' }
+    if (!packageName) return { success: false, packageNameError: 'packageName is required!' }
 
-  
+
     // await new Promise((res)=> setTimeout(res,2000))
-    await prisma.release.update({data:{title,coverUrl,description,packageName,repository},where:{id}})
+    await prisma.release.update({ data: { title, coverUrl, description, packageName, repository }, where: { id } })
 
-    return {success:true}
+    return { success: true }
   } catch (error) {
-    return {success:false,someError:`${error}`}
+    return { success: false, someError: `${error}` }
   }
 }
 
 type returnType = {
-  randomId:string;
-  success:boolean;
-  someError:string;
-  titleError:string;
-  repositoryError:string;
-  packageNameError:string;
+  randomId: string;
+  success: boolean;
+  someError: string;
+  titleError: string;
+  repositoryError: string;
+  packageNameError: string;
 }
 
-export async function releaseAddAction(prevState:any,formData:FormData){
-  let response:returnType ={
-      randomId:randomUUID().toString(),
-      someError:'',
-      success:false,
-      titleError:'',
-      repositoryError:'',
-      packageNameError:''
-    }
+export async function releaseAddAction(prevState: any, formData: FormData) {
+  let response: returnType = {
+    randomId: randomUUID().toString(),
+    someError: '',
+    success: false,
+    titleError: '',
+    repositoryError: '',
+    packageNameError: ''
+  }
   try {
+    const isAdmin = await isAdminUser();
+    if (!isAdmin) return { ...response, someError: 'not allowed' }
     const title = formData.get('title') as string;
     const repository = formData.get('repository') as string;
     const coverUrl = formData.get('coverUrl') as string;
     const packageName = formData.get('packageName') as string;
     const description = formData.get('description') as string;
 
-    if(!title) return {...response,titleError:'title is required!'}
-    if(!repository) return {...response,repositoryError:'repository is required!'}
-    if(!packageName) return {...response,packageNameError:'packageName is required!'}
+    if (!title) return { ...response, titleError: 'title is required!' }
+    if (!repository) return { ...response, repositoryError: 'repository is required!' }
+    if (!packageName) return { ...response, packageNameError: 'packageName is required!' }
 
-  
+
     // await new Promise((res)=> setTimeout(res,2000))
-    await prisma.release.create({data:{title,coverUrl,description,packageName,repository}})
+    await prisma.release.create({ data: { title, coverUrl, description, packageName, repository } })
 
 
-    return {...response,success:true}
+    return { ...response, success: true }
   } catch (error) {
-    return {...response,someError:`${error}`}
+    return { ...response, someError: `${error}` }
   }
 }
 
 
-export async function releaseDeleteAction(id:string){
+export async function releaseDeleteAction(id: string) {
+  const isAdmin = await isAdminUser();
+  if (!isAdmin) return;
   // await new Promise((res)=> setTimeout(res,2000))
-    await prisma.release.delete({where:{id}})
+  await prisma.release.delete({ where: { id } })
 }

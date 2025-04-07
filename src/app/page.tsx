@@ -9,8 +9,7 @@ export default async function Home() {
 
   return (
     <>
-      {user?.type === UserTypes.admin ? (
-        <div className="text-blue-500 flex gap-1 mt-2">
+      <div className="text-blue-500 flex gap-1 mt-2 p-5">
           <Link className="btn" href="/proxy">
             Proxy
           </Link>
@@ -21,15 +20,6 @@ export default async function Home() {
             Release
           </Link>
         </div>
-      ) : null}
-
-      {/* <div>{user?.id}</div>
-      <div>Banned: {`${user?.banned}`}</div>
-      <div>Locked: {`${user?.locked}`}</div>
-      <div>{user?.firstName}</div>
-      <div>{user?.lastName}</div>
-      <div>{user?.imageUrl.trim()}</div>
-      <div>{user?.emailAddresses[0].emailAddress}</div> */}
     </>
   );
 }

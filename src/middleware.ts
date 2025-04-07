@@ -1,25 +1,9 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 const isProtectedRoutes = createRouteMatcher(['/user(.*)', '/release(.*)'])
-const isAdaminProtectedRoutes = createRouteMatcher(['/user(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   const { redirectToSignIn, userId } = await auth();
 
-
-
-  // if (isAdaminProtectedRoutes(req)) {
-  //   if (userId) {
-  //     const user = await prisma.user.findUnique({ where: { id: userId } })
-  //     if (user?.type === UserTypes.admin) {
-  //       await auth.protect()
-  //     }else{
-  //       redirect('/')
-  //     }
-  //   } else {
-  //     return redirectToSignIn()
-
-  //   }
-  // }
 
   if (isProtectedRoutes(req)) {
     // if (userId === null) {

@@ -3,8 +3,11 @@ import prisma from "@/lib/prisma";
 import { getProxyUrl } from "@/utils/app_utils";
 import Link from "next/link";
 import ReleaseDeleteButton from "./release_delete_button";
+import { getCurrentUser } from "@/user_auth/clerk_user_auth";
+import { UserTypes } from "@/types/types";
 
 const RelaseList = async () => {
+  const currentUser = await getCurrentUser();
   const list = await prisma.release.findMany({ orderBy: { date: "desc" } });
 
   function getCoverUrl(url: string) {
@@ -40,7 +43,8 @@ const RelaseList = async () => {
             </div></Link>
             <div className="flex gap-1" >
               <Link href={`/release/${release.id}`} className="btn default">Edit</Link>
-              <ReleaseDeleteButton release={release}/>
+               {currentUser?.type === UserTypes.admin ? <ReleaseDeleteButton release={release}/>:null}
+
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ function ClerkHeder() {
       <div className="left">
         <Link href="/" className="btn">Home</Link>
       </div>
-      <div className="right flex justify-end">
+      <div className="right flex justify-end gap-2">
       <SignedOut>
         <SignInButton />
         <SignUpButton />
