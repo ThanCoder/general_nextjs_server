@@ -4,14 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest, { params }: { params: Promise<{ id: string }> }){
   try {
     const id = (await params).id;
-    if(id){
-      const res = await prisma.release.findUnique({where:{id}})
-      return NextResponse.json(res);
+    const release = await prisma.release.findUnique({where:{id}})
+    if(release == null){
+      return new NextResponse(`'release' not found`,{status:404})
     }
-    return NextResponse.json({res:'not found'},{status:404});
+
+    return NextResponse.json(release);
 
   } catch (error) {
-    return NextResponse.json({res:`${error}`},{status:500})
+    return new NextResponse(`${error}`,{status:500})
   }
   
 }

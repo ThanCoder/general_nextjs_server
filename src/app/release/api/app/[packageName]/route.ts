@@ -6,12 +6,19 @@ export async function GET(req:NextRequest,{ params }: { params: Promise<{ packag
     const packageName = (await params).packageName;
 
     const release = await prisma.release.findFirst({ where: { packageName } })
+    if(release == null){
+      return new NextResponse(`'release' not found`,{status:404})
+    }
 
-    const res = await prisma.releaseApp.findFirst({
+    const releaseApp = await prisma.releaseApp.findFirst({
       where: { releaseId: release?.id },
       orderBy: { version: 'desc' }
     })
-    return NextResponse.json(res, { status: 404 })
+    if(releaseApp == null){
+      return new NextResponse(`'releaseApp' not found`,{status:404})
+    }
+
+    return NextResponse.json(releaseApp, { status: 200 })
   } catch (error) {
     return NextResponse.json({ res: `${error}` }, { status: 500 })
   }
