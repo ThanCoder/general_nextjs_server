@@ -11,3 +11,9 @@ export function validateVersion(version: string): boolean {
   const regex = /^\d+\.\d+\.\d+$/;
   return regex.test(version);
 }
+
+export function getRepositoryRawUrl(url:string,filepath:string):string{
+  let host = url.replaceAll('https://github.com','https://raw.githubusercontent.com');
+  return `${host}/refs/heads/main/${filepath}`;
+}
+
