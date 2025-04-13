@@ -55,7 +55,7 @@ export async function releaseAppAddAction(prevState: any, formData: FormData) {
       return { ...response, urlError: 'url is startsWith http!' }
     }
 
-    const app = await prisma.releaseApp.findFirst({ where: { AND: { version, platform } } })
+    const app = await prisma.releaseApp.findFirst({ where: { AND: { version, platform,releaseId } } })
 
     if (app != null) {
       return { ...response, someError: 'version already exists' }
