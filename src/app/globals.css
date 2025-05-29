@@ -14,18 +14,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #161616ee;
     --foreground: #ededed;
   }
 }
 
 body {
-  /* background: var(--background);
-  color: var(--foreground); */
+  background: var(--background);
+  color: var(--foreground);
   padding: 0px;
   margin: 0;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  @apply max-w-4xl mx-auto my-2;
 }
 
 .btn,
@@ -37,25 +41,27 @@ button {
   @apply rounded-sm p-2 grid gap-2 mb-2;
 }
 .form-container label {
-  @apply text-black capitalize;
+  @apply capitalize;
 }
 .form-container input[type="text"],
 input[type="text"],input[type="number"] {
-  @apply focus:outline-none rounded-sm p-2 w-full block outline-1 -outline-offset-1 outline-gray-300 bg-gray-100 text-black;
+  @apply focus:outline-none rounded-sm p-2 w-full block outline-1 -outline-offset-1 outline-none bg-gray-700;
 }
 .form-container textarea {
-  @apply resize-none text-black border-2 border-gray-300 bg-gray-100 rounded-md p-2 outline-0 focus:border-none;
+  @apply resize-none  border-2 border-gray-700 bg-gray-700 rounded-md p-2 outline-0 focus:border-none;
 }
-
+select {
+  @apply bg-gray-800 p-3 rounded-md;
+}
 /* form */
 
 
 .card {
-  @apply bg-gray-200 p-2 rounded-md;
+  @apply bg-gray-900 p-2 rounded-md text-white;
 }
 
 h1 {
-  @apply text-4xl text-black;
+  @apply text-4xl ;
 }
 
 
@@ -67,5 +73,8 @@ h1 {
   @apply bg-gray-400;
 }
 .error-text {
-  @apply text-red-600 capitalize;
+  @apply text-white capitalize text-center bg-red-800 py-2 rounded-md;
+}
+.success-text {
+  @apply text-white capitalize text-center bg-teal-800 py-2 rounded-md;
 }

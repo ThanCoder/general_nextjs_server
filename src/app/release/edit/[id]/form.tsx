@@ -1,44 +1,36 @@
 "use client";
 
-import { releaseAddAction } from "@/actions/release_actions";
+import {
+  releaseAddAction,
+  releaseUpdateAction,
+} from "@/actions/release_actions";
 import { releaseAppAddAction } from "@/actions/release_app_actions";
 import FormButton from "@/components/form_button";
 import { getPlatformTypeList, PlatformTypes } from "@/types/types";
+import { Release } from "@prisma/client";
 import { ChangeEvent, useActionState, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function ReleaseForm() {
-  const [state, action] = useActionState(releaseAddAction, null);
-  const [formData, setFormData] = useState({
-    title: "",
-    repository: "",
-    coverUrl: "",
-    packageName: "",
-    description: "",
+function ReleaseForm({ release }: { release: Release }) {
+  const { id, coverUrl, description, packageName, repository, title } = release;
+  const [state, action, pending] = useActionState(releaseUpdateAction, {
+    id,
+    coverUrl,
+    description,
+    packageName,
+    repository,
+    title,
+    // someError:'i am error'
+    // successText:'i am success'
   });
-
-  function onChanged(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setFormData({ ...formData, [e.target.name]: [e.target.value] });
-  }
-
-  useEffect(() => {
-    if (state?.success) {
-      setFormData({coverUrl: "", description: "",packageName:'',repository:'',title:'' });
-      toast.success("Added");
-    } else {
-      if (state?.someError) {
-        toast.error(state?.someError);
-      }
-    }
-  }, [state?.randomId]);
 
   return (
     <div className="p-10">
       <h1 className="text-center mb-2">Release Form</h1>
-      {state?.someError ? <div className="error-text">{state?.someError}</div>:null}
+     {state.someError ?  <div className="error-text">{state?.someError}</div>:null}
+     {state.successText ?  <div className="success-text">{state?.successText}</div>:null}
+      
       <form action={action}>
-        
-
         <div className="form-container">
           <label htmlFor="title">title</label>
           <input
@@ -46,23 +38,19 @@ function ReleaseForm() {
             name="title"
             id="title"
             placeholder="Untitled"
-            value={formData.title}
-            onChange={onChanged}
+            defaultValue={state.title}
           />
-          {state?.titleError ? <div className="error-text">{state?.titleError}</div>:null}
         </div>
 
         <div className="form-container">
           <label htmlFor="packageName">packageName</label>
           <input
             type="text"
-            value={formData.packageName}
-            onChange={onChanged}
+            defaultValue={state.packageName}
             name="packageName"
             id="packageName"
             placeholder="com.than.*"
           />
-          {state?.packageNameError ? <div className="error-text">{state?.packageNameError}</div>:null}
         </div>
 
         <div className="form-container">
@@ -72,10 +60,8 @@ function ReleaseForm() {
             name="repository"
             id="repository"
             placeholder="repository..."
-            value={formData.repository}
-            onChange={onChanged}
+            defaultValue={state.repository}
           />
-          {state?.repositoryError ? <div className="error-text">{state?.repositoryError}</div>:null}
         </div>
         <div className="form-container">
           <label htmlFor="coverUrl">coverUrl</label>
@@ -84,23 +70,21 @@ function ReleaseForm() {
             name="coverUrl"
             id="coverUrl"
             placeholder="coverUrl..."
-            value={formData.coverUrl}
-            onChange={onChanged}
+            defaultValue={state.coverUrl}
           />
         </div>
 
         <div className="form-container">
           <label htmlFor="description">description</label>
           <textarea
+            defaultValue={state.description}
             name="description"
             id="description"
-            value={formData.description}
-            onChange={onChanged}
           />
         </div>
         {/* button */}
         <div className="flex justify-end">
-          <FormButton text="Add" pendingText="Adding..." />
+          <button type="submit">{pending ? "Updating..." : "Update"}</button>
         </div>
       </form>
     </div>

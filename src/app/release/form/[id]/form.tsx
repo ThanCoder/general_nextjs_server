@@ -2,7 +2,7 @@
 
 import { releaseAppAddAction } from "@/actions/release_app_actions";
 import FormButton from "@/components/form_button";
-import { getPlatformTypeList, PlatformTypes } from "@/types/types";
+import { getPlatformTypeList } from "@/types/types";
 import { Release } from "@prisma/client";
 import { ChangeEvent, useActionState, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 function ReleaseAppForm({ release }: { release: Release }) {
   const [state, action] = useActionState(releaseAppAddAction, null);
   const [formData, setFormData] = useState({
-    version: "",
+    version: "1.0.0",
     platform: "",
     url: "",
     description: "",
@@ -33,12 +33,18 @@ function ReleaseAppForm({ release }: { release: Release }) {
 
   return (
     <div className="p-10">
-      <h1 className="text-center mb-2">App Form</h1>
-      <div className="error-text">{state?.someError}</div>
+      {/* <h1 className="text-center mb-2">App Form</h1> */}
+      {state?.someError ? (
+        <div className="error-text">{state?.someError}</div>
+      ) : null}
+
       <form action={action}>
         <input type="hidden" name="releaseId" value={release.id} />
 
         <div className="form-container">
+          {state?.vesionError ? (
+            <div className="error-text">{state?.vesionError}</div>
+          ) : null}
           <label htmlFor="version">version</label>
           <input
             type="text"
@@ -48,7 +54,6 @@ function ReleaseAppForm({ release }: { release: Release }) {
             value={formData.version}
             onChange={onChanged}
           />
-          <div className="error-text">{state?.vesionError}</div>
         </div>
 
         <div className="form-container">
@@ -64,27 +69,32 @@ function ReleaseAppForm({ release }: { release: Release }) {
         </div>
 
         <div className="form-container">
+          {state?.platformError ? (
+            <div className="error-text">{state?.platformError}</div>
+          ) : null}
           <label htmlFor="platform">platform</label>
-          <input
-            type="text"
+          {/* plaform list */}
+          <select
+            value={formData.platform}
+            onChange={(e) => {
+              // console.log(e.target.value);
+              setFormData({ ...formData, platform: e.target.value });
+            }}
             name="platform"
             id="platform"
-            placeholder="platform..."
-            list="platform-list"
-            value={formData.platform}
-            onChange={onChanged}
-          />
-          <div className="error-text">{state?.platformError}</div>
+          >
+            {getPlatformTypeList().map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
         </div>
-        {/* plaform list */}
-        <datalist id="platform-list">
-          {getPlatformTypeList().map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </datalist>
+
         <div className="form-container">
+          {state?.urlError ? (
+            <div className="error-text">{state?.urlError}</div>
+          ) : null}
           <label htmlFor="url">url</label>
           <input
             type="text"
@@ -94,7 +104,6 @@ function ReleaseAppForm({ release }: { release: Release }) {
             value={formData.url}
             onChange={onChanged}
           />
-          <div className="error-text">{state?.urlError}</div>
         </div>
 
         <div className="form-container">

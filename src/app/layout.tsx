@@ -34,7 +34,9 @@ export default function RootLayout({
       >
         <ClerkHeder/>
           
+        <div className="container">
         {children}
+        </div>
         <ToastContainer/>
       </body>
     </html>

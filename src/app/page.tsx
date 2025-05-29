@@ -9,7 +9,7 @@ export default async function Home() {
 
   return (
     <>
-      <div className="text-blue-500 flex gap-1 mt-2 p-5">
+      <div className="text-blue-500 flex gap-1 mt-2 p-5 ">
           <Link className="btn" href="/proxy">
             Proxy
           </Link>

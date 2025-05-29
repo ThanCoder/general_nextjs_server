@@ -11,7 +11,7 @@ async function ReleasePage() {
     <div className="flex gap-1 p-5">
     <Link href="/release/form" className="btn">Add</Link>
     </div>
-    <h1 className="text-center">Release</h1>
+    <h1 className="text-center text-white">Release</h1>
     <div className="flex gap-1 justify-start">
     {/* list */}
     </div>

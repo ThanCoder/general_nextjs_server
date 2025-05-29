@@ -32,19 +32,29 @@ const RelaseList = async () => {
             alt={"img"}
           />
           {/* list */}
-          <div className=" hover:bg-gray-300 flex-auto">
+          <div className=" hover:bg-gray-800 flex-auto">
             <Link href={`/release/${release.id}`}>
-            <div>Title: {release.title}</div>
-            <div>Package Name: {release.packageName}</div>
-            <div>Repository: {release.repository}</div>
-            <div>Desc: {release.description}</div>
-            <div>
-              Date: <ParseDate date={release.date} />
-            </div></Link>
-            <div className="flex gap-1" >
-              <Link href={`/release/${release.id}`} className="btn default">Edit</Link>
-               {currentUser?.type === UserTypes.admin ? <ReleaseDeleteButton release={release}/>:null}
-
+              <div>Title: {release.title}</div>
+              <div>Package Name: {release.packageName}</div>
+              <div>Repository: {release.repository}</div>
+              <div>Desc: {release.description}</div>
+              <div>
+                Date: <ParseDate date={release.date} />
+              </div>
+            </Link>
+            <div className="flex gap-1">
+              {currentUser?.type === UserTypes.admin ||
+              currentUser?.id == release.id ? (
+                <Link
+                  href={`/release/edit/${release.id}`}
+                  className="btn default"
+                >
+                  Edit
+                </Link>
+              ) : null}
+              {currentUser?.type === UserTypes.admin ? (
+                <ReleaseDeleteButton release={release} />
+              ) : null}
             </div>
           </div>
         </div>
